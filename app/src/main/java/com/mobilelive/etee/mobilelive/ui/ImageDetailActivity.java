@@ -1,10 +1,14 @@
 package com.mobilelive.etee.mobilelive.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +26,7 @@ public class ImageDetailActivity extends BaseNetworkActivity {
     String imageID;
     TextView imageId;
     TextView imageName;
-    TextView imageData;
+    ImageView imageData;
     TextView imageType;
     TextView imageCreated;
     TextView imageUpdated;
@@ -31,6 +35,7 @@ public class ImageDetailActivity extends BaseNetworkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         context = this;
         initComponents();
         getImageId(getIntent().getExtras());
@@ -56,7 +61,7 @@ public class ImageDetailActivity extends BaseNetworkActivity {
     private void initComponents() {
         imageId = (TextView) findViewById(R.id.image_id);
         imageName = (TextView) findViewById(R.id.image_name);
-        imageData = (TextView) findViewById(R.id.image_data);
+        imageData = (ImageView) findViewById(R.id.image_data);
         imageType = (TextView) findViewById(R.id.image_type);
         imageCreated = (TextView) findViewById(R.id.image_created);
         imageUpdated = (TextView) findViewById(R.id.image_updated);
@@ -75,12 +80,23 @@ public class ImageDetailActivity extends BaseNetworkActivity {
         Toast.makeText(ImageDetailActivity.this, R.string.error, Toast.LENGTH_SHORT);
     }
 
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
     private void setImageData(ImageObject imageObject) {
         if (imageObject != null) {
             imageId.setText(imageObject.getImageId());
             imageName.setText(imageObject.getImageName());
             imageType.setText(imageObject.getObject());
-            imageData.setText(imageObject.getData());
+            imageData.setImageBitmap(StringToBitMap(imageObject.getData()));
             imageCreated.setText(imageObject.getCreatedAt());
             imageUpdated.setText(imageObject.getUpdatedAt());
         }

@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_image_detail"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:gravity="center"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mobilelive.etee.mobilelive.ui.ImageDetailActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:padding="@dimen/padding_20"
-        android:id="@+id/image_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_image_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.mobilelive.etee.mobilelive.ui.ImageDetailActivity">
 
-    <TextView
-        android:padding="@dimen/padding_20"
-        android:layout_below="@+id/image_id"
-        android:id="@+id/image_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/image_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_20" />
 
-    <TextView
-        android:padding="@dimen/padding_20"
-        android:layout_below="@+id/image_name"
-        android:id="@+id/image_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/image_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_id"
+            android:padding="@dimen/padding_20" />
 
-    <TextView
-        android:padding="@dimen/padding_20"
-        android:layout_below="@+id/image_type"
-        android:id="@+id/image_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/image_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_name"
+            android:padding="@dimen/padding_20" />
 
-    <TextView
-        android:padding="@dimen/padding_20"
-        android:layout_below="@+id/image_data"
-        android:id="@+id/image_created"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/image_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_below="@+id/image_type"
+            android:padding="@dimen/padding_20" />
 
-    <TextView
-        android:padding="@dimen/padding_20"
-        android:layout_below="@+id/image_created"
-        android:id="@+id/image_updated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/image_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_data"
+            android:padding="@dimen/padding_20" />
+
+        <TextView
+            android:id="@+id/image_updated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_created"
+            android:padding="@dimen/padding_20" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
