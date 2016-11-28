@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Mobile Live</string>
+    <string name="sign_in">Sign in</string>
+    <string name="user_name">user name</string>
+    <string name="password">password</string>
+    <string name="wait">Wait</string>
+    <string name="processing">processing</string>
+    <string name="action_upload_image">Upload</string>
+    <string name="action_select_image">Image</string>
+    <string name="action_select_camera">Camera</string>
+    <string name="error">Error</string>
+
+</resources>
