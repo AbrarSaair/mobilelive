@@ -165,7 +165,7 @@ public class ImageListActivity extends BaseNetworkActivity {
     private void getImageDataFromCameraIntent(Intent data) {
         Bitmap bm = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 200, baos); //bm is the bitmap object
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
         String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
         uploadImageToServer("camera", encodedImage);
