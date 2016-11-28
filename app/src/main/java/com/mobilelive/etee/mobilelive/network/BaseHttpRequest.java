@@ -1,6 +1,9 @@
 package com.mobilelive.etee.mobilelive.network;
 
+import android.content.Context;
 import android.util.Pair;
+
+import com.mobilelive.etee.mobilelive.AppPreference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +34,7 @@ public class BaseHttpRequest implements INetworkRequest {
     public static final String HASH_TAG = "#";
     public static final String AND = "&";
     public static final String EQUALS = "=";
-
+    Context context;
     CookieManager cookieManager;
     private List<Pair> parameters;
     /**
@@ -99,6 +102,9 @@ public class BaseHttpRequest implements INetworkRequest {
         if (hasContentTypeEnabled()) {
             setHeaderForContentType();
         }
+        if (putCookieValue) {
+            connection.addRequestProperty("Cookie", "sessionId=" + AppPreference.getString(context, "session_id", "6a7a99fe-e257-3aca-6db4-0fcf2d2b509f"));
+        }
     }
 
     /**
@@ -119,8 +125,8 @@ public class BaseHttpRequest implements INetworkRequest {
 
     protected void createRequest() throws IOException {
         connection = getConnection();
-        cookieManager = new CookieManager();
-        CookieHandler.setDefault(cookieManager);
+        //   cookieManager = new CookieManager();
+        //   CookieHandler.setDefault(cookieManager);
     }
 
     @Override
@@ -193,6 +199,9 @@ public class BaseHttpRequest implements INetworkRequest {
             if (sessionId != null) {
                 for (String c : sessionId) {
                     cookieManager.getCookieStore().add(null, HttpCookie.parse(c).get(0));
+                    String name = HttpCookie.parse(c).get(0).getName();
+                    String value = HttpCookie.parse(c).get(0).getValue();
+                    AppPreference.saveString(context, value, "session_id");
                 }
             }
         }
@@ -239,6 +248,11 @@ public class BaseHttpRequest implements INetworkRequest {
     }
 
     private void parseError() {
+        try {
+            resultObject = String.valueOf(connection.getResponseCode());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected boolean isSucess() throws IOException {
@@ -253,5 +267,9 @@ public class BaseHttpRequest implements INetworkRequest {
 
     public void setPutCookieValue(boolean putCookieValue) {
         this.putCookieValue = putCookieValue;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

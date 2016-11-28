@@ -9,5 +9,6 @@
     <string name="action_select_image">Image</string>
     <string name="action_select_camera">Camera</string>
     <string name="error">Error</string>
+    <string name="image_uploaded">Image Uploaded</string>
 
 </resources>

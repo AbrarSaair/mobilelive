@@ -14,15 +14,16 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private ArrayList<ImageObject> images;
+    ImageListActivity.OnItemClickListener listener;
+
 
     public void setListener(ImageListActivity.OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    ImageListActivity.OnItemClickListener listener;
+
     public ImageAdapter(ArrayList<ImageObject> imageObjects) {
         this.images = imageObjects;
-
     }
 
     @Override
@@ -48,6 +49,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void setData(ArrayList<ImageObject> imageObjects) {
         this.images = imageObjects;
     }
+
+
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textViewImageName;

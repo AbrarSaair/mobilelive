@@ -14,7 +14,7 @@ public class ImageParser implements IParser {
 
     @Override
     public Object parseData(Object object) {
-        if (object == null && object instanceof JSONObject) {
+        if (object != null && object instanceof JSONObject) {
             JSONObject data = (JSONObject) object;
             Iterator<String> iter = data.keys();
             ArrayList<ImageObject> images = new ArrayList<>();
@@ -40,8 +40,7 @@ public class ImageParser implements IParser {
     }
 
     public Object parseImageObject(Object object) {
-        if (object == null && object instanceof JSONObject) {
-            ImageObject image = new ImageObject();
+        if (object != null && object instanceof JSONObject) {
             JSONObject data = (JSONObject) object;
             try {
                 ImageObject obj = new ImageObject();
@@ -51,10 +50,10 @@ public class ImageParser implements IParser {
                 obj.setObject(data.getString(AppNetworkConstants.PARAM_OBJECT));
                 obj.setCreatedAt(data.getString(AppNetworkConstants.PARAM_CREATED_AT));
                 obj.setUpdatedAt(data.getString(AppNetworkConstants.PARAM_UPDATED_AT));
+                return obj;
             } catch (JSONException e) {
 
             }
-            return image;
         }
         return null;
     }

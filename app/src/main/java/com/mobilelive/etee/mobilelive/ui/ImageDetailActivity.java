@@ -31,6 +31,7 @@ public class ImageDetailActivity extends BaseNetworkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
+        context = this;
         initComponents();
         getImageId(getIntent().getExtras());
         loadImageDetail();
@@ -41,6 +42,7 @@ public class ImageDetailActivity extends BaseNetworkActivity {
      */
     private void loadImageDetail() {
         BaseHttpRequest request = new HttpGetRequest(INetworkRequest.API_IMAGE_UPLOAD + "/" + imageID);
+        request.setContext(context);
         request.setPutCookieValue(true);
         executeSimpleRequest(request);
     }

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.ContextMenu;
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.R.attr.bitmap;
+import static android.R.attr.content;
+import static com.mobilelive.etee.mobilelive.R.string.error;
 
 public class ImageListActivity extends BaseNetworkActivity {
 
@@ -42,6 +45,7 @@ public class ImageListActivity extends BaseNetworkActivity {
     public static final int CAMERA_IMAGE_REQUEST = 3;
     RecyclerView recyclerView;
     ImageAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
     ArrayList<ImageObject> images = new ArrayList<>();
 
     public interface OnItemClickListener {
@@ -52,9 +56,10 @@ public class ImageListActivity extends BaseNetworkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
         initComponents();
         loadImageList();
-        initAdapter();
+        //  initAdapter();
     }
 
     /**
@@ -62,12 +67,16 @@ public class ImageListActivity extends BaseNetworkActivity {
      */
     private void loadImageList() {
         BaseHttpRequest request = new HttpGetRequest(INetworkRequest.API_IMAGE_LIST);
+        request.setContext(context);
         request.setPutCookieValue(true);
         executeSimpleRequest(request);
     }
 
     private void initComponents() {
         recyclerView = (RecyclerView) findViewById(R.id.images_recycler_view);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
 
     }
 
@@ -147,11 +156,11 @@ public class ImageListActivity extends BaseNetworkActivity {
             Uri selectedImage = data.getData();
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 200, baos); //bm is the bitmap object
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
             byte[] b = baos.toByteArray();
 
             String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-            uploadImageToServer("test", encodedImage);
+            uploadImageToServer("gallery.jpg", encodedImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,7 +177,7 @@ public class ImageListActivity extends BaseNetworkActivity {
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
         String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-        uploadImageToServer("camera", encodedImage);
+        uploadImageToServer("camera.jpg", encodedImage);
     }
 
     /**
@@ -180,18 +189,21 @@ public class ImageListActivity extends BaseNetworkActivity {
      */
     private void uploadImageToServer(String imageName, String imageData) {
         BaseHttpRequest request = new BaseHttpRequest(INetworkRequest.API_IMAGE_UPLOAD);
+        request.setContext(context);
         request.addParameter(AppNetworkConstants.PARAM_NAME, String.valueOf(imageName));
         request.addParameter(AppNetworkConstants.PARAM_DATA, String.valueOf(imageData));
         request.setPutCookieValue(true);
         executeSimpleRequest(request, new INetworkResponseListener() {
             @Override
             public void onFailure(Object error) {
-                //Failure
+                Toast.makeText(ImageListActivity.this, error.toString(), Toast.LENGTH_SHORT);
             }
 
             @Override
             public void onSuccess(Object object) {
-                // upload success
+                Object a = object;
+                Toast.makeText(ImageListActivity.this, context.getString(R.string.image_uploaded), Toast.LENGTH_SHORT);
+                loadImageList();
             }
         });
     }
@@ -215,7 +227,7 @@ public class ImageListActivity extends BaseNetworkActivity {
      */
     @Override
     public void onFailure(Object error) {
-        Toast.makeText(ImageListActivity.this, R.string.error, Toast.LENGTH_SHORT);
+        Toast.makeText(ImageListActivity.this, context.getString(R.string.error), Toast.LENGTH_SHORT);
     }
 
     /**
@@ -224,7 +236,7 @@ public class ImageListActivity extends BaseNetworkActivity {
     @Override
     public void onSuccess(Object object) {
         images = (ArrayList<ImageObject>) new ImageParser().parseData(object);
-        updateAdapter();
+        initAdapter();
     }
 
     private void updateAdapter() {

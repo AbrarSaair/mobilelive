@@ -1,6 +1,7 @@
 package com.mobilelive.etee.mobilelive.network;
 
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -22,6 +23,8 @@ public abstract class BaseNetworkActivity extends AppCompatActivity implements I
         isRequestInProgress = false;
     }
 
+    protected Context context;
+
     /**
      * Execute simple request.
      *
@@ -33,6 +36,7 @@ public abstract class BaseNetworkActivity extends AppCompatActivity implements I
         }
 
         networkRequestTask = new AsyncTaskNetworkRequest();
+        networkRequestTask.setContext(context);
         networkRequestTask.setNetworkRequest(request);
         networkRequestTask.setRequestListener(networkResponseListener);
         TaskHandler.executeAsync(networkRequestTask);
@@ -42,13 +46,12 @@ public abstract class BaseNetworkActivity extends AppCompatActivity implements I
         if (networkResponseListener == null) {
             networkResponseListener = new NetworkResponseListener(this);
         }
-
         networkRequestTask = new AsyncTaskNetworkRequest();
+        networkRequestTask.setContext(context);
         networkRequestTask.setNetworkRequest(request);
-        if(listener!= null){
+        if (listener != null) {
             networkRequestTask.setRequestListener(listener);
-        }else
-        {
+        } else {
             networkRequestTask.setRequestListener(networkResponseListener);
         }
         TaskHandler.executeAsync(networkRequestTask);

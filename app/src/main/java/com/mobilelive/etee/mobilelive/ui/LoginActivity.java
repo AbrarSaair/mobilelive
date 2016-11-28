@@ -24,6 +24,7 @@ public class LoginActivity extends BaseNetworkActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        context = this;
         initComponents();
     }
 
@@ -45,6 +46,7 @@ public class LoginActivity extends BaseNetworkActivity implements View.OnClickLi
      */
     private void sendLoginRequest() {
         BaseHttpRequest request = new BaseHttpRequest(INetworkRequest.API_LOGIN);
+        request.setContext(context);
         request.addParameter(AppNetworkConstants.PARAM_USER_NAME, String.valueOf(username.getText()));
         request.addParameter(AppNetworkConstants.PARAM_PASSWORD, String.valueOf(password.getText()));
         executeSimpleRequest(request);

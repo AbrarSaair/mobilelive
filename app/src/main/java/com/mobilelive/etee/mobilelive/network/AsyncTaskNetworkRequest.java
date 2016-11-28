@@ -3,6 +3,7 @@ package com.mobilelive.etee.mobilelive.network;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
 import com.mobilelive.etee.mobilelive.R;
 
 
@@ -24,21 +25,17 @@ public class AsyncTaskNetworkRequest extends AsyncTask<Object, Void, Void> {
             progressDialog = ProgressDialog.show(mContext, getTittle(), getMessage());
 
         } catch (Exception exception) {
-
+            exception.printStackTrace();
         }
     }
 
     private String getTittle() {
-        if (title == null) {
-            title = mContext.getResources().getString(R.string.wait);
-        }
+        title = mContext.getResources().getString(R.string.wait);
         return title;
     }
 
     private String getMessage() {
-        if (message == null) {
-            message = mContext.getResources().getString(R.string.processing);
-        }
+        message = mContext.getResources().getString(R.string.processing);
         return message;
     }
 
@@ -84,5 +81,9 @@ public class AsyncTaskNetworkRequest extends AsyncTask<Object, Void, Void> {
 
     public void setRequestListener(INetworkResponseListener requestListener) {
         this.requestListener = requestListener;
+    }
+
+    public void setContext(Context context) {
+        this.mContext = context;
     }
 }
